@@ -1,0 +1,134 @@
+openapi: 3.0.3
+info:
+  title: User service
+  description: |-
+    This is a sample user service
+  version: 1.0.0
+
+servers:
+  - url: https://petstore3.swagger.io/api/v3
+tags:
+  - name: User
+    description: Operations about user
+paths:
+
+  /user/signup:
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: Register a user.
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+
+      responses:
+        "201":
+            description: successful operation
+            content:
+              application/json:
+                examples:
+                  user registered successfully:
+                    value:
+                      message: User Registered Successfully
+        "400":
+          description: Bad Request - see `message` field for additional information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestResponse"
+
+  /user/login:
+    get:
+      tags:
+        - user
+      summary: Logs user into the system
+      description: ''
+      operationId: loginUser
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: false
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid username/password supplied
+ 
+ 
+components:
+  schemas:
+
+    User:
+      type: object
+      properties:
+
+        name:
+          type: string
+          example: theUser
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        city:
+          type: string
+          example: 'city'
+        age:
+          type: integer
+          description: age
+          format: int32
+          example: 1
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Invalid request body.
+      
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+
+  requestBodies:
+    UserArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+  securitySchemes:
+   
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
