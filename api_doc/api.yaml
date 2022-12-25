@@ -6,13 +6,13 @@ info:
   version: 1.0.0
 
 servers:
-  - url: https://petstore3.swagger.io/api/v3
+  - url: https://user-service-kz6n.onrender.com
 tags:
-  - name: User
+  - name: user
     description: Operations about user
 paths:
 
-  /user/signup:
+  /v1/user/signup:
     post:
       tags:
         - user
@@ -42,7 +42,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/BadRequestResponse"
 
-  /user/login:
+  /v1/user/login:
     get:
       tags:
         - user
@@ -50,9 +50,9 @@ paths:
       description: ''
       operationId: loginUser
       parameters:
-        - name: username
+        - name: email
           in: query
-          description: The user name for login
+          description: The email for login
           required: false
           schema:
             type: string

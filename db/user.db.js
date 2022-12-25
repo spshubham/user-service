@@ -22,6 +22,8 @@ exports.findByEmailAndPassord = async(email, password) => {
     try {
         
         let user = await User.findOne({email : email});
+        if(!user)
+            throw Response.InvalidUserAndMail;
         const result = await bcrypt.compare(password,user.password);
         if(!result) { throw Response.InvalidUserAndMail;}
         return user;
